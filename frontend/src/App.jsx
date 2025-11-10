@@ -1,35 +1,63 @@
-import { useState } from 'react'
-import reactLogo from './assets/react.svg'
-import viteLogo from '/vite.svg'
-import './App.css'
+import { useState } from "react";
+import "./App.css";
 
 function App() {
-  const [count, setCount] = useState(0)
+  const [lat, setLat] = useState("");
+  const [lon, setLon] = useState("");
+  const [data, setData] = useState(null);
+
+  const handleSearch = () => {
+    const fakeData = {
+      temperature: "24°C",
+      humidity: "65%",
+      city: "Lima",
+    };
+
+    setData(fakeData);
+  };
 
   return (
-    <>
-      <div>
-        <a href="https://vite.dev" target="_blank">
-          <img src={viteLogo} className="logo" alt="Vite logo" />
-        </a>
-        <a href="https://react.dev" target="_blank">
-          <img src={reactLogo} className="logo react" alt="React logo" />
-        </a>
+    <div className="container">
+      <h2>Search by Coordinates</h2>
+
+      <div className="search-row">
+        <input
+          type="text"
+          placeholder="Latitude"
+          value={lat}
+          onChange={(e) => setLat(e.target.value)}
+        />
+
+        <input
+          type="text"
+          placeholder="Longitude"
+          value={lon}
+          onChange={(e) => setLon(e.target.value)}
+        />
+
+        <button onClick={handleSearch}> Search </button>
       </div>
-      <h1>Vite + React</h1>
-      <div className="card">
-        <button onClick={() => setCount((count) => count + 1)}>
-          count is {count}
-        </button>
-        <p>
-          Edit <code>src/App.jsx</code> and save to test HMR
-        </p>
-      </div>
-      <p className="read-the-docs">
-        Click on the Vite and React logos to learn more
-      </p>
-    </>
-  )
+
+      {data && (
+        <table className="result-table">
+          <thead>
+            <tr>
+              <th>City</th>
+              <th>Temperature</th>
+              <th>Humidity</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td>{data.city}</td>
+              <td>{data.temperature}</td>
+              <td>{data.humidity}</td>
+            </tr>
+          </tbody>
+        </table>
+      )}
+    </div>
+  );
 }
 
-export default App
+export default App;

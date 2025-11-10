@@ -1,6 +1,6 @@
 # WeatherGo
 
-WeatherPage is a web application for querying temperature, humidity and weather at a specific coordinate using an external weather API. It features user authentication.
+WeatherGo is a web application for querying temperature, humidity and weather at a specific coordinate using an external weather API. It features user authentication.
 
 ## Features
 
