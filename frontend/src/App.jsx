@@ -1,10 +1,35 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
+import L from "leaflet";
+import "leaflet/dist/leaflet.css";
 import "./App.css";
 
 function App() {
   const [lat, setLat] = useState("");
   const [lon, setLon] = useState("");
   const [data, setData] = useState(null);
+
+  const handleMapClick = (e) => {
+    const latitude = e.latlng.lat.toFixed(6);
+    const longitude = e.latlng.lng.toFixed(6);
+
+    setLat(latitude);
+    setLon(longitude);
+
+    console.log("Clicked coordinates:", latitude, longitude);
+  };
+
+  useEffect(() => {
+    const map = L.map("map").setView([0, 0], 2);
+
+    L.tileLayer("https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png", {
+      maxZoom: 19,
+      attribution: "OpenStreetMap contributors",
+    }).addTo(map);
+
+    map.on("click", handleMapClick);
+
+    return () => map.remove();
+  }, []);
 
   const handleSearch = () => {
     const fakeData = {
@@ -22,14 +47,12 @@ function App() {
 
       <div className="search-row">
         <input
-          type="text"
           placeholder="Latitude"
           value={lat}
           onChange={(e) => setLat(e.target.value)}
         />
 
         <input
-          type="text"
           placeholder="Longitude"
           value={lon}
           onChange={(e) => setLon(e.target.value)}
@@ -56,6 +79,8 @@ function App() {
           </tbody>
         </table>
       )}
+
+      <div id="map" className="map-container"></div>
     </div>
   );
 }
