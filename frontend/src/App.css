@@ -1,0 +1,21 @@
+
+.container {
+  padding: 20px;
+}
+
+.search-row {
+  display: flex;
+  gap: 10px;
+  margin-bottom: 10px;
+}
+
+.result-table {
+  border: 1px solid gray;
+  border-collapse: collapse;
+}
+
+.result-table th,
+.result-table td {
+  border: 1px solid gray;
+  padding: 5px;
+}
