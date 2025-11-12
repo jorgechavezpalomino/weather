@@ -1,4 +1,4 @@
-import { useState, useEffect } from "react";
+import { useState, useEffect, useRef } from "react";
 import L from "leaflet";
 import "leaflet/dist/leaflet.css";
 import "./App.css";
@@ -6,7 +6,14 @@ import "./App.css";
 function App() {
   const [lat, setLat] = useState("");
   const [lon, setLon] = useState("");
-  const [data, setData] = useState(null);
+  const [data, setData] = useState({
+    temperature: "24°C",
+    humidity: "65%",
+    city: "Lima",
+  });
+
+  const mapRef = useRef(null);
+  const markerRef = useRef(null);
 
   const handleMapClick = (e) => {
     const latitude = e.latlng.lat.toFixed(6);
@@ -15,23 +22,12 @@ function App() {
     setLat(latitude);
     setLon(longitude);
 
-    console.log("Clicked coordinates:", latitude, longitude);
-  };
+    if (markerRef.current) {
+      markerRef.current.setLatLng([latitude, longitude]);
+    } else {
+      markerRef.current = L.marker([latitude, longitude]).addTo(mapRef.current);
+    }
 
-  useEffect(() => {
-    const map = L.map("map").setView([0, 0], 2);
-
-    L.tileLayer("https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png", {
-      maxZoom: 19,
-      attribution: "OpenStreetMap contributors",
-    }).addTo(map);
-
-    map.on("click", handleMapClick);
-
-    return () => map.remove();
-  }, []);
-
-  const handleSearch = () => {
     const fakeData = {
       temperature: "24°C",
       humidity: "65%",
@@ -41,46 +37,56 @@ function App() {
     setData(fakeData);
   };
 
+  useEffect(() => {
+    mapRef.current = L.map("map").setView([0, 0], 2);
+
+    L.tileLayer("https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png", {
+      maxZoom: 19,
+    }).addTo(mapRef.current);
+
+    mapRef.current.on("click", handleMapClick);
+
+    return () => {
+      mapRef.current.off();
+      mapRef.current.remove();
+    };
+  }, []);
+
   return (
     <div className="container">
-      <h2>Search by Coordinates</h2>
-
-      <div className="search-row">
-        <input
-          placeholder="Latitude"
-          value={lat}
-          onChange={(e) => setLat(e.target.value)}
-        />
-
-        <input
-          placeholder="Longitude"
-          value={lon}
-          onChange={(e) => setLon(e.target.value)}
-        />
-
-        <button onClick={handleSearch}> Search </button>
-      </div>
-
-      {data && (
-        <table className="result-table">
-          <thead>
-            <tr>
-              <th>City</th>
-              <th>Temperature</th>
-              <th>Humidity</th>
-            </tr>
-          </thead>
-          <tbody>
-            <tr>
-              <td>{data.city}</td>
-              <td>{data.temperature}</td>
-              <td>{data.humidity}</td>
-            </tr>
-          </tbody>
-        </table>
-      )}
-
       <div id="map" className="map-container"></div>
+
+      <div className="sidebar">
+        <h2>Weather World</h2>
+
+        <div className="search-row">
+          <input
+            placeholder="Latitude"
+            value={lat}
+            onChange={(e) => setLat(e.target.value)}
+          />
+
+          <input
+            placeholder="Longitude"
+            value={lon}
+            onChange={(e) => setLon(e.target.value)}
+          />
+        </div>
+
+        {data && (
+          <div className="result-card">
+            <p>
+              <strong>City:</strong> {data.city}
+            </p>
+            <p>
+              <strong>Temp:</strong> {data.temperature}
+            </p>
+            <p>
+              <strong>Hmd:</strong> {data.humidity}
+            </p>
+          </div>
+        )}
+      </div>
     </div>
   );
 }

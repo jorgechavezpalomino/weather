@@ -1,28 +1,83 @@
 
 .container {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  padding: 10px;
+  background-color: #1e1e1e;
+  color: white;
+  height: 90vh;
+}
+
+.map-container {
+  width: 70vw;
+  height: 90vh;
+  border-radius: 10px;
+  margin-right: 10px;
+}
+
+.sidebar {
+  width: 25vw;
+  height: 100%;
+  margin: 0px 10px 0px 10px;
+  background-color: #2b2b2b;
+  border-radius: 10px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
   padding: 20px;
+  box-sizing: border-box;
+}
+
+.sidebar h2 {
+  text-align: center;
+  width: 100%;
 }
 
 .search-row {
   display: flex;
+  flex-direction: column;
   gap: 10px;
-  margin-bottom: 10px;
+  width: 100%;
+  margin-bottom: 20px;
+  align-items: center;
+}
+
+.search-row input {
+  padding: 8px;
+  border: none;
+  border-radius: 5px;
+  outline: none;
+  width: 90%;
 }
 
 .result-table {
+  width: 100%;
   border: 1px solid gray;
   border-collapse: collapse;
+  text-align: center;
+  overflow-x: auto;
+  display: block;
 }
 
 .result-table th,
 .result-table td {
   border: 1px solid gray;
-  padding: 5px;
+  padding: 8px;
 }
 
-.map-container {
-  height: 400px;
+.result-card {
   width: 100%;
-  margin-top: 20px;
+  background-color: #1e1e1e;
   border-radius: 10px;
+  padding: 15px;
+  text-align: left;
+  box-sizing: border-box;
+}
+
+.result-card p {
+  margin: 10px 0;
+  font-size: 16px;
+  border-bottom: 1px solid gray;
+  padding-bottom: 5px;
 }
