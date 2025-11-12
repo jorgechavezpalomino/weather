@@ -51,21 +51,6 @@
   width: 90%;
 }
 
-.result-table {
-  width: 100%;
-  border: 1px solid gray;
-  border-collapse: collapse;
-  text-align: center;
-  overflow-x: auto;
-  display: block;
-}
-
-.result-table th,
-.result-table td {
-  border: 1px solid gray;
-  padding: 8px;
-}
-
 .result-card {
   width: 100%;
   background-color: #1e1e1e;
